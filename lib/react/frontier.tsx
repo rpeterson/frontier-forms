@@ -28,7 +28,7 @@ export interface Modifiers {
 // Component render props
 export interface FrontierRenderProps {
   form: FormApi;
-  state: FormState;
+  state: FormState<any>;
   modifiers: any; // tslint:disable-line no-any
   kit?: any; // tslint:disable-line no-any
 }
@@ -46,7 +46,7 @@ export interface FrontierProps extends FrontierDataProps {
 
 // Component state
 export interface FrontierState {
-  formState?: FormState;
+  formState?: FormState<any>;
 }
 
 const MODIFIERS_KEY: string[] = ['blur', 'focus'];
@@ -187,7 +187,7 @@ export class Frontier extends Component<FrontierProps, FrontierState> {
             path, props => {
               const state = this.form!.getFieldState(path);
               const FieldComponent = this.uiKitComponentFor(path, definition, required);
-              return <FieldComponent {...state!} {...props} />;
+              return <FieldComponent {...state!} {...props} options={definition.anyOf} />;
             });
         },
         this.schema!.required || []

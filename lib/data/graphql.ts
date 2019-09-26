@@ -223,8 +223,8 @@ export function buildFormSchema (schema: JSONSchema7, mutationName: string): JSO
 
 // tslint:disable-next-line typedef
 function formPropertiesReducer (schema, referenceSchema): JSONSchema7 {
-  return {
-    type: 'object',
+  let _schema:any  = {
+    type: schema.anyOf ? 'string' : 'object',
     properties: reduce<JSONSchema7, { [k: string]: any }>( // tslint:disable-line no-any
       schema.properties,
       (result, value, key) => {
@@ -268,4 +268,6 @@ function formPropertiesReducer (schema, referenceSchema): JSONSchema7 {
     ),
     required: schema.required
   };
+  if (schema.anyOf) _schema.anyOf = schema.anyOf
+  return _schema;
 }
